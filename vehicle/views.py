@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from rest_framework import viewsets, status
-from vehicle.serliazers import CarSerializer
-from vehicle.models import Car
+from rest_framework import viewsets, status, generics
+from vehicle.serliazers import CarSerializer, MotoSerializer
+from vehicle.models import Car, Moto
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 
@@ -25,3 +25,21 @@ class CarViewSet(viewsets.ModelViewSet):
         else:
             # Одиночное создание объекта
             return super().create(request, *args, **kwargs)
+
+class MotoCreateAPIView(generics.CreateAPIView):
+    serializer_class = MotoSerializer
+
+class MotoListAPIView(generics.ListAPIView):
+    serializer_class = MotoSerializer
+    queryset = Moto.objects.all()
+
+class MotoRetrieveAPIView(generics.RetrieveAPIView):
+    serializer_class = MotoSerializer
+    queryset = Moto.objects.all()
+
+class MotoUpdateAPIView(generics.UpdateAPIView):
+    serializer_class = MotoSerializer
+    queryset = Moto.objects.all()
+
+class MotoDestroyAPIView(generics.DestroyAPIView):
+    queryset = Moto.objects.all()
