@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets, status, generics
-from vehicle.serliazers import CarSerializer, MotoSerializer
-from vehicle.models import Car, Moto
+from vehicle.serliazers import CarSerializer, MotoSerializer, MilageSerializers
+from vehicle.models import Car, Moto, Milage
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 
@@ -43,3 +43,7 @@ class MotoUpdateAPIView(generics.UpdateAPIView):
 
 class MotoDestroyAPIView(generics.DestroyAPIView):
     queryset = Moto.objects.all()
+
+
+class MilageCreateAPIView(generics.CreateAPIView):
+    serializer_class = MilageSerializers
