@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
 from rest_framework import viewsets, status, generics
-from vehicle.serliazers import CarSerializer, MotoSerializer, MilageSerializers
+from vehicle.serliazers import CarSerializer, MotoSerializer, MilageSerializers, MotoMilageSerializers, MotoCreateSerializer
 from vehicle.models import Car, Moto, Milage
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
@@ -27,7 +29,7 @@ class CarViewSet(viewsets.ModelViewSet):
             return super().create(request, *args, **kwargs)
 
 class MotoCreateAPIView(generics.CreateAPIView):
-    serializer_class = MotoSerializer
+    serializer_class = MotoCreateSerializer
 
 class MotoListAPIView(generics.ListAPIView):
     serializer_class = MotoSerializer
@@ -47,3 +49,15 @@ class MotoDestroyAPIView(generics.DestroyAPIView):
 
 class MilageCreateAPIView(generics.CreateAPIView):
     serializer_class = MilageSerializers
+
+class MotoMilageListAPIView(generics.ListAPIView):
+    queryset = Milage.objects.filter(moto__isnull=False)
+    serializer_class = MotoMilageSerializers
+
+class MilageListAPIView(generics.ListAPIView):
+    """ Для вывода списка пробегов. Фильтр"""
+    serializer_class = MilageSerializers
+    queryset = Milage.objects.all()
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ('car', 'moto',)
+    ordering_fields = ("year",)
