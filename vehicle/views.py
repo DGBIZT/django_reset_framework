@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 from rest_framework import viewsets, status, generics
+from rest_framework.permissions import IsAuthenticated
+
 from vehicle.serliazers import CarSerializer, MotoSerializer, MilageSerializers, MotoMilageSerializers, MotoCreateSerializer
 from vehicle.models import Car, Moto, Milage
 from django.shortcuts import get_object_or_404
@@ -14,6 +16,7 @@ class CarViewSet(viewsets.ModelViewSet):
     """
     serializer_class = CarSerializer
     queryset = Car.objects.all()
+    permission_classes = [IsAuthenticated]
 
 
     def create(self, request, *args, **kwargs):
