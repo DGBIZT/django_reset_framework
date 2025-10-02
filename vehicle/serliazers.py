@@ -12,8 +12,8 @@ class MilageSerializers(serializers.ModelSerializer):
 
 class CarSerializer(serializers.ModelSerializer):
 
-    last_milage = serializers.IntegerField(source="milage.all.first.milage") # Выводит последний записанный пробег
-    milage = MilageSerializers(many=True)
+    last_milage = serializers.IntegerField(source="milage.all.first.milage", read_only=True) # Выводит последний записанный пробег
+    milage = MilageSerializers(many=True, required=False)
 
     class Meta:
         model = Car
@@ -21,7 +21,7 @@ class CarSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Извлекаем данные пробега из validated_data
-        milage = validated_data.pop("milage")
+        milage = validated_data.pop("milage", [])
 
         car_item = Car.objects.create(**validated_data)
         # Для каждого элемента пробега создаем отдельную запись
