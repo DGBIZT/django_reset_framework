@@ -4,6 +4,7 @@ from rest_framework.filters import OrderingFilter
 from rest_framework import viewsets, status, generics
 from rest_framework.permissions import IsAuthenticated
 
+from vehicle.paginators import VehiclePaginator
 from vehicle.permissions import IsOwnerOrStaff
 from vehicle.serliazers import CarSerializer, MotoSerializer, MilageSerializers, MotoMilageSerializers, MotoCreateSerializer
 from vehicle.models import Car, Moto, Milage
@@ -44,6 +45,7 @@ class MotoCreateAPIView(generics.CreateAPIView):
 class MotoListAPIView(generics.ListAPIView):
     serializer_class = MotoSerializer
     queryset = Moto.objects.all()
+    pagination_class = VehiclePaginator
 
 class MotoRetrieveAPIView(generics.RetrieveAPIView):
     serializer_class = MotoSerializer
