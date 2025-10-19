@@ -50,16 +50,20 @@ INSTALLED_APPS = [
     'users',
     'vehicle',
     'rest_framework_simplejwt',
+    'drf_yasg',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -170,5 +174,18 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
+<<<<<<< HEAD
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+=======
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:8000',  # Замените на адрес вашего фронтенд-сервера
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8000", #  Замените на адрес вашего фронтенд-сервера
+    # и добавьте адрес бэкенд-сервера
+]
+
+CORS_ALLOW_ALL_ORIGINS = False
+>>>>>>> f552284d074ee32a1ea4fe6b2652966bffb59396
